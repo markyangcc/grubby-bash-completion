@@ -1,6 +1,6 @@
 _grubby() {
     local cur prev commands
-    commands="--default-kernel --default-index --default-title --info --make-default --set-default --set-default-index --update-kernel"
+    commands="--default-kernel --default-index --default-title --info --make-default --set-default --set-default-index --update-kernel --args --remove-args"
 
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -11,36 +11,30 @@ _grubby() {
         COMPREPLY=($(compgen -W "${commands}" -- ${cur}))
         return 0
         ;;
-    --default-kernel)
-        COMPREPLY=($(compgen -W "$(grubby --info ALL | grep kernel | awk '{print $2}')" -- ${cur}))
-        return 0
-        ;;
-    --default-index)
-        COMPREPLY=($(compgen -W "$(grubby --info ALL | grep index | awk '{print $2}')" -- ${cur}))
-        return 0
-        ;;
-    --default-title)
-        COMPREPLY=($(compgen -W "$(grubby --info ALL | grep index | awk '{print $2}')" -- ${cur}))
-        return 0
-        ;;
     --info)
-        COMPREPLY=($(compgen -W "ALL DEFAULT" -- ${cur}))
+        kernels=$(ls /boot/vmlinuz-*)
+        COMPREPLY=($(compgen -W "ALL DEFAULT $kernels" -- ${cur}))
         return 0
         ;;
-    --set-default=*)
-        COMPREPLY=($(compgen -W "$(grubby --info ALL | grep kernel | awk '{print $2}')" -- ${cur}))
+    --set-default)
+        kernels=$(ls /boot/vmlinuz-*)
+        COMPREPLY=($(compgen -W "$kernels" -- ${cur}))
         return 0
         ;;
-    --set-default-index=*)
-        COMPREPLY=($(compgen -W "$(grubby --info ALL | grep index | awk '{print $2}')" -- ${cur}))
+    --set-default-index)
+        numkernels=$(ls -t /boot/loader/entries/ | wc -l)
+        maxindex=$((numkernels-1))
+        indexes=$(echo $(seq 0 $maxindex))
+        COMPREPLY=($(compgen -W "$indexes" -- ${cur}))
         return 0
         ;;
-    --update-kernel=*)
-        COMPREPLY=($(compgen -f ${cur}))
+    --update-kernel)
+        kernels=$(ls /boot/vmlinuz-*)
+        COMPREPLY=($(compgen -W "$kernels" -- ${cur}))
         return 0
         ;;
     --args | --remove-args)
-        COMPREPLY=($(compgen -W "ro rw quiet splash vga=normal" -- ${cur}))
+        COMPREPLY=($(compgen -W "" -- ${cur}))
         return 0
         ;;
     *) ;;
