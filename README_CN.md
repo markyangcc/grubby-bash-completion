@@ -1,27 +1,23 @@
 # grubby-bash-completion
 
-Bash completion for the **grubby** command, zsh should works with bashcompinit
+`grubby` 命令的 **Bash 自动补全脚本**
 
-The `grubby` tool provides many options for managing boot entries. However, in most day-to-day scenarios, only a subset of them are commonly used.
-This completion script **focuses on** commands that are most relevant to **switching kernels** and **managing kernel parameters.**
+`grubby` 工具有许多选项，用于管理启动项。不过在日常使用中，常用的只是其中一部分。本补全脚本主要聚焦在 **切换内核** 和 **管理内核参数** 相关的命令上。
 
-👉 README [\[README\]](README.md)|[\[中文\]](README_CN.md)
-
-## Installation
-
-Copy the completion script to bash-completion directory and source it,
+## 安装
+将补全脚本复制到 bash-completion 目录并加载：
 ```bash
 cp grubby-completion.bash /usr/share/bash-completion/completions/grubby
 
 source /usr/share/bash-completion/completions/grubby
 ```
 
-Verify that completion works by typing,
+验证补全是否生效,
 ```bash
 grubby --<TAB>
 ```
 
-## Zsh Support
+## Zsh 支持
 This script can also be used in zsh through `bashcompinit`.
 Add the following to your `~/.zshrc`,
 ```zsh
@@ -35,7 +31,7 @@ autoload bashcompinit && bashcompinit
 source /usr/share/bash-completion/completions/grubby
 ```
 
-## Supported commands
+## 支持的命令
 
 ```bash
 grubby --default-kernel
